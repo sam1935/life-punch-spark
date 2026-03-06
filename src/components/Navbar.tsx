@@ -16,8 +16,11 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-foreground/90 backdrop-blur-md border-b border-primary/20">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <a href="#" className="font-heading text-2xl font-bold text-primary-foreground tracking-wider">
-          LIFE <span className="text-primary">PUNCH</span>
+        <a href="#" className="flex items-center gap-2">
+          <img src="/logo.jpg" alt="Life Punch Logo" className="h-12 w-auto" />
+          <span className="font-heading text-2xl font-bold text-primary-foreground tracking-wider hidden sm:block">
+            LIFE <span className="text-primary">PUNCH</span>
+          </span>
         </a>
 
         {/* Desktop */}

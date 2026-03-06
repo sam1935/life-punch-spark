@@ -2,9 +2,9 @@ import bookCover from "@/assets/book-cover.png";
 import { BookOpen, ShoppingCart } from "lucide-react";
 
 const retailers = [
-  { name: "Amazon", url: "#" },
-  { name: "Barnes & Noble", url: "#" },
-  { name: "Books-A-Million", url: "#" },
+  { name: "Amazon", url: "https://www.amazon.com/amz-books/store" },
+  { name: "Barnes & Noble", url: "https://www.barnesandnoble.com/" },
+  { name: "Books-A-Million", url: "https://www.booksamillion.com/" },
 ];
 
 const BookDetailsSection = () => {

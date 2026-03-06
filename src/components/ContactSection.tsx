@@ -4,11 +4,35 @@ import { Facebook, Instagram, Twitter, Mail } from "lucide-react";
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
-    setForm({ name: "", email: "", message: "" });
+    setLoading(true);
+    
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSent(true);
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        alert(data.error || "Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -65,10 +89,10 @@ const ContactSection = () => {
                   />
                 </div>
                 <button
-                  type="submit"
-                  className="w-full bg-primary text-primary-foreground py-3 rounded-md font-heading font-bold uppercase tracking-wider hover:bg-primary/90 transition-colors"
+                  disabled={loading}
+                  className="w-full bg-primary text-primary-foreground py-3 rounded-md font-heading font-bold uppercase tracking-wider hover:bg-primary/90 transition-colors disabled:opacity-70"
                 >
-                  Send Message
+                  {loading ? "Sending..." : "Send Message"}
                 </button>
               </form>
             )}

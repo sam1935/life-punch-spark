@@ -4,11 +4,35 @@ import { Facebook, Mail } from "lucide-react";
 const CommunitySection = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setEmail("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
+        setEmail("");
+      } else {
+        alert(data.error || "Failed to subscribe. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      alert("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,9 +69,10 @@ const CommunitySection = () => {
                 />
                 <button
                   type="submit"
-                  className="bg-primary text-primary-foreground px-6 h-11 rounded-md font-heading font-bold uppercase text-sm tracking-wider hover:bg-primary/90 transition-colors"
+                  disabled={loading}
+                  className="bg-primary text-primary-foreground px-6 h-11 rounded-md font-heading font-bold uppercase text-sm tracking-wider hover:bg-primary/90 transition-colors disabled:opacity-70"
                 >
-                  Subscribe
+                  {loading ? "..." : "Subscribe"}
                 </button>
               </form>
             )}

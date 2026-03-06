@@ -4,9 +4,12 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <span className="font-heading text-2xl font-bold text-primary-foreground tracking-wider">
-              LIFE <span className="text-primary">PUNCH</span>
-            </span>
+            <a href="#" className="flex items-center gap-2">
+              <img src="/logo.jpg" alt="Life Punch Logo" className="h-10 w-auto" />
+              <span className="font-heading text-2xl font-bold text-primary-foreground tracking-wider">
+                LIFE <span className="text-primary">PUNCH</span>
+              </span>
+            </a>
             <p className="text-primary-foreground/40 font-body text-sm mt-1">
               By Douglas James Hood
             </p>
