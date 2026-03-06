@@ -1,29 +1,17 @@
 import nodemailer from "nodemailer";
 
 const createTransporter = () => {
-  if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-    return nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    throw new Error("Missing EMAIL_USER or EMAIL_PASS environment variables.");
   }
-  
-  // Mock transporter for testing
-  return {
-    sendMail: async (mailOptions) => {
-      console.log("-----------------------------------------");
-      console.log("Mock Email Sent!");
-      console.log(`To: ${mailOptions.to}`);
-      console.log(`From: ${mailOptions.from}`);
-      console.log(`Subject: ${mailOptions.subject}`);
-      console.log(`Text: ${mailOptions.text}`);
-      console.log("-----------------------------------------");
-      return { messageId: "mock-id-12345" };
-    }
-  };
+
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 };
 
 const transporter = createTransporter();
@@ -34,7 +22,7 @@ export default async function handler(req, res) {
   }
 
   const { name, email, message } = req.body;
-  
+
   if (!name || !email || !message) {
     return res.status(400).json({ error: "Name, email, and message are required." });
   }
